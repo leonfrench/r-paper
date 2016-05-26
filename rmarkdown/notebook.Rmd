@@ -17,6 +17,7 @@ library(ggplot2)
 library(car)
 library(dplyr)
 library(stargazer)
+library(knitr)
 
 # data from day 1
 alldata <- read.csv("alldata.csv")
@@ -52,13 +53,13 @@ Another important features is being able to reference R objects inline with othe
 
 We can also show off statistical tables by setting the `results='asis'` option on the R chunk; this is because of how stargazer works.
 
-```{r results='asis'}
+```{r}
 my.stats.table <- alldata %>% 
                   group_by(dx) %>%
                   summarise("Mean" = mean(cog1, na.rm = T),
                             "St Dev" = sd(cog1, na.rm = T))
 
-stargazer(my.stats.table, summary=F, rownames = F, type="html")
+kable(my.stats.table, digits=2)
 ```
 
 # RESEARCH AIM 4: score ~ age (linear regression)

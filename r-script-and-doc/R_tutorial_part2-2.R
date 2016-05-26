@@ -3,6 +3,8 @@ library(ggplot2)
 library(car)
 library(dplyr)
 library(stargazer)
+library(knitr)
+library(pander)
 
 # data from day 1
 alldata <- read.csv("alldata.csv")
@@ -45,7 +47,7 @@ ggplot(data.toplot, aes(y=cog1,x=dx)) +
 
 ## NOW LET's save our plot!!!
 ## Note: we can start by using the "Export" button in the plots tab..
-ggsave('figure1_ttestresults.pdf', width = 5, height = 5)
+ggsave('figure1_ttestresults.png', width = 5, height = 5)
 
 ## Let's make a diagnosis by cognition table
 my.stats.table <- summarise(alldata,
@@ -59,9 +61,9 @@ my.stats.table <- alldata %>%
                   summarise("Mean" = mean(cog1, na.rm = T),
                             "St Dev" = sd(cog1, na.rm = T))
 
-stargazer(my.stats.table, summary=F, type="text")
-stargazer(my.stats.table, summary=F, type="html",out="my.stats.table.html")
-
+kable(my.stats.table)
+pander(my.stats.table)
+print(xtable(my.stats.table, digits=2), type="html", file="my.stats.table.html")
 
 ## RESEARCH AIM 4: total_behaviour_score ~ age (linear regression)
 # calculate a composite variable by combining multiple variables
